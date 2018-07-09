@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.thiago.retry.model.Categoria;
 import br.com.thiago.retry.model.Cidade;
+import br.com.thiago.retry.model.Cliente;
+import br.com.thiago.retry.model.Endereco;
 import br.com.thiago.retry.model.Estado;
 import br.com.thiago.retry.model.Produto;
+import br.com.thiago.retry.model.enums.TipoCliente;
 import br.com.thiago.retry.service.repositories.CategoriaRepository;
 import br.com.thiago.retry.service.repositories.CidadeRepository;
+import br.com.thiago.retry.service.repositories.ClienteRepository;
+import br.com.thiago.retry.service.repositories.EnderecoRepository;
 import br.com.thiago.retry.service.repositories.EstadoRepository;
 import br.com.thiago.retry.service.repositories.ProdutoRepository;
 
@@ -27,7 +32,11 @@ public class RetryApplication implements CommandLineRunner {
 	private CidadeRepository cidadeRepository;
 	@Autowired
 	private EstadoRepository estadoRepository;
-	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(RetryApplication.class, args);
 	}
@@ -62,18 +71,30 @@ public class RetryApplication implements CommandLineRunner {
 		est2.getCidades().add(c2);
 		est2.getCidades().add(c3);
 
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().add("27363326");
+		cli1.getTelefones().add("93838393");
+		Endereco e1 = new Endereco(null, "Rua flores", "300", "Apto303", "Jardim", "38220834", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38771212", cli1, c2);
+		cli1.getEnderecos().add(e1);
+		cli1.getEnderecos().add(e2);
+
 		this.categoriaRepository.save(cat1);
 		this.categoriaRepository.save(cat2);
-		
+
 		this.produtoRepository.save(p1);
 		this.produtoRepository.save(p2);
 		this.produtoRepository.save(p3);
-		
+
 		this.estadoRepository.save(est1);
 		this.estadoRepository.save(est2);
 		this.cidadeRepository.save(c1);
 		this.cidadeRepository.save(c2);
 		this.cidadeRepository.save(c3);
+		
+		this.clienteRepository.save(cli1);
+		this.enderecoRepository.save(e1);
+		this.enderecoRepository.save(e2);
 
 	}
 }
