@@ -8,18 +8,20 @@ import org.springframework.stereotype.Service;
 
 import br.com.thiago.retry.model.Produto;
 import br.com.thiago.retry.service.repositories.ProdutoRepository;
+import br.com.thiago.retry.service.service.ObjectNotFoundException;
 
 @Service
 public class ProdutoService {
 	@Autowired
 	private ProdutoRepository repository;
 
-	public List<Produto>list(){
+	public List<Produto> list() {
 		return this.repository.findAll();
 	}
-	
+
 	public Produto find(Integer id) {
 		Optional<Produto> produto = this.repository.findById(id);
-		return produto.orElse(null);
+		return produto.orElseThrow(() -> new ObjectNotFoundException(
+				"Produto não encontrado, id: " + id + ", tipo:" + Produto.class.getName()));
 	}
 }

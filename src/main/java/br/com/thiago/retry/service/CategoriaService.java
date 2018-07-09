@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.thiago.retry.model.Categoria;
 import br.com.thiago.retry.service.repositories.CategoriaRepository;
+import br.com.thiago.retry.service.service.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
@@ -22,7 +23,8 @@ public class CategoriaService {
 
 	public Categoria find(Integer id) {
 		Optional<Categoria> categoria = this.repository.findById(id);
-		return categoria.orElse(null);
+		return categoria.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado, id:" + id + ", Tipo:" + Categoria.class.getName(), null));
 	}
 
 }

@@ -13,7 +13,7 @@ import br.com.thiago.retry.model.Produto;
 import br.com.thiago.retry.service.ProdutoService;
 
 @RestController
-@RequestMapping(value = "/prdutos")
+@RequestMapping(value = "/produtos")
 public class ProdutoResource {
 	@Autowired
 	private ProdutoService service;
