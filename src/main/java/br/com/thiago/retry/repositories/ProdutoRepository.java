@@ -1,4 +1,4 @@
-package br.com.thiago.retry.service.repositories;
+package br.com.thiago.retry.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,6 +1,7 @@
 package br.com.thiago.retry.resources;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,26 +10,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.thiago.retry.model.Categoria;
-import br.com.thiago.retry.service.CategoriaService;
+import br.com.thiago.retry.model.Cliente;
+import br.com.thiago.retry.repositories.ClienteRepository;
 
 @RestController
-@RequestMapping(value = "/categorias")
-public class CategoriaResource {
+@RequestMapping(value = "/clientes")
+public class ClienteResources {
 
 	@Autowired
-	private CategoriaService categoriaService;
-	
+	private ClienteRepository clienteRepository;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> list() {
-		List<Categoria> list = this.categoriaService.list();
+		List<Cliente> list = this.clienteRepository.findAll();
 		return ResponseEntity.ok().body(list);
 	}
-	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> findCategoria(@PathVariable Integer id) {
-		Categoria categoria = this.categoriaService.find(id);
-		return ResponseEntity.ok().body(categoria);
-	}
 
+	@RequestMapping(value = "{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable Integer id) {
+		Optional<Cliente> optional = this.clienteRepository.findById(id);
+		return ResponseEntity.ok().body(optional);
+	}
 }

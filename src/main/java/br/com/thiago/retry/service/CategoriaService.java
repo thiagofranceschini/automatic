@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.thiago.retry.model.Categoria;
-import br.com.thiago.retry.service.repositories.CategoriaRepository;
-import br.com.thiago.retry.service.service.ObjectNotFoundException;
+import br.com.thiago.retry.repositories.CategoriaRepository;
+import br.com.thiago.retry.service.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {

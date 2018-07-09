@@ -1,4 +1,4 @@
-package br.com.thiago.retry.service.service;
+package br.com.thiago.retry.service.exceptions;
 
 public class ObjectNotFoundException extends RuntimeException{
 

@@ -14,12 +14,12 @@ import br.com.thiago.retry.model.Endereco;
 import br.com.thiago.retry.model.Estado;
 import br.com.thiago.retry.model.Produto;
 import br.com.thiago.retry.model.enums.TipoCliente;
-import br.com.thiago.retry.service.repositories.CategoriaRepository;
-import br.com.thiago.retry.service.repositories.CidadeRepository;
-import br.com.thiago.retry.service.repositories.ClienteRepository;
-import br.com.thiago.retry.service.repositories.EnderecoRepository;
-import br.com.thiago.retry.service.repositories.EstadoRepository;
-import br.com.thiago.retry.service.repositories.ProdutoRepository;
+import br.com.thiago.retry.repositories.CidadeRepository;
+import br.com.thiago.retry.repositories.ClienteRepository;
+import br.com.thiago.retry.repositories.EnderecoRepository;
+import br.com.thiago.retry.repositories.EstadoRepository;
+import br.com.thiago.retry.repositories.ProdutoRepository;
+import br.com.thiago.retry.repositories.CategoriaRepository;
 
 @SpringBootApplication
 public class RetryApplication implements CommandLineRunner {
