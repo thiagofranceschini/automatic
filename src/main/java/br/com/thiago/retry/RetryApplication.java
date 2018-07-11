@@ -14,6 +14,7 @@ import br.com.thiago.retry.model.Cidade;
 import br.com.thiago.retry.model.Cliente;
 import br.com.thiago.retry.model.Endereco;
 import br.com.thiago.retry.model.Estado;
+import br.com.thiago.retry.model.ItemPedido;
 import br.com.thiago.retry.model.Pagamento;
 import br.com.thiago.retry.model.PagamentoComBoleto;
 import br.com.thiago.retry.model.PagamentoComCartao;
@@ -26,6 +27,7 @@ import br.com.thiago.retry.repositories.CidadeRepository;
 import br.com.thiago.retry.repositories.ClienteRepository;
 import br.com.thiago.retry.repositories.EnderecoRepository;
 import br.com.thiago.retry.repositories.EstadoRepository;
+import br.com.thiago.retry.repositories.ItemPedidoRepository;
 import br.com.thiago.retry.repositories.PagamentoRepository;
 import br.com.thiago.retry.repositories.PedidoRepository;
 import br.com.thiago.retry.repositories.ProdutoRepository;
@@ -49,8 +51,8 @@ public class RetryApplication implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
-
 	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(RetryApplication.class, args);
@@ -106,6 +108,16 @@ public class RetryApplication implements CommandLineRunner {
 
 		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
 
+		ItemPedido ip1 = new ItemPedido(ped1, p1, new BigDecimal(0.00), 1, new BigDecimal(2000.00));
+		ItemPedido ip2 = new ItemPedido(ped1, p3, new BigDecimal(0.00), 2, new BigDecimal(80.00));
+		ItemPedido ip3 = new ItemPedido(ped2, p2, new BigDecimal(100.00), 1, new BigDecimal(800.00));
+
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
 
 		this.categoriaRepository.save(cat1);
 		this.categoriaRepository.save(cat2);
@@ -126,5 +138,7 @@ public class RetryApplication implements CommandLineRunner {
 
 		this.pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		this.pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto1));
+
+		this.itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 }
