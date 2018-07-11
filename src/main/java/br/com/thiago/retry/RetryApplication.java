@@ -1,6 +1,8 @@
 package br.com.thiago.retry;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,14 +14,21 @@ import br.com.thiago.retry.model.Cidade;
 import br.com.thiago.retry.model.Cliente;
 import br.com.thiago.retry.model.Endereco;
 import br.com.thiago.retry.model.Estado;
+import br.com.thiago.retry.model.Pagamento;
+import br.com.thiago.retry.model.PagamentoComBoleto;
+import br.com.thiago.retry.model.PagamentoComCartao;
+import br.com.thiago.retry.model.Pedido;
 import br.com.thiago.retry.model.Produto;
+import br.com.thiago.retry.model.enums.EstadoPagamento;
 import br.com.thiago.retry.model.enums.TipoCliente;
+import br.com.thiago.retry.repositories.CategoriaRepository;
 import br.com.thiago.retry.repositories.CidadeRepository;
 import br.com.thiago.retry.repositories.ClienteRepository;
 import br.com.thiago.retry.repositories.EnderecoRepository;
 import br.com.thiago.retry.repositories.EstadoRepository;
+import br.com.thiago.retry.repositories.PagamentoRepository;
+import br.com.thiago.retry.repositories.PedidoRepository;
 import br.com.thiago.retry.repositories.ProdutoRepository;
-import br.com.thiago.retry.repositories.CategoriaRepository;
 
 @SpringBootApplication
 public class RetryApplication implements CommandLineRunner {
@@ -36,6 +45,12 @@ public class RetryApplication implements CommandLineRunner {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
+
+	@Autowired
 
 	public static void main(String[] args) {
 		SpringApplication.run(RetryApplication.class, args);
@@ -79,6 +94,19 @@ public class RetryApplication implements CommandLineRunner {
 		cli1.getEnderecos().add(e1);
 		cli1.getEnderecos().add(e2);
 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Pedido ped1 = new Pedido(null, dateFormat.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, dateFormat.parse("10/10/2017 19:35"), cli1, e2);
+
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2,
+				dateFormat.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pagto2);
+
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+
+
 		this.categoriaRepository.save(cat1);
 		this.categoriaRepository.save(cat2);
 
@@ -91,10 +119,12 @@ public class RetryApplication implements CommandLineRunner {
 		this.cidadeRepository.save(c1);
 		this.cidadeRepository.save(c2);
 		this.cidadeRepository.save(c3);
-		
+
 		this.clienteRepository.save(cli1);
 		this.enderecoRepository.save(e1);
 		this.enderecoRepository.save(e2);
 
+		this.pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		this.pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto1));
 	}
 }
