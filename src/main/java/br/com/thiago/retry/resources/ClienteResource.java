@@ -15,7 +15,7 @@ import br.com.thiago.retry.repositories.ClienteRepository;
 
 @RestController
 @RequestMapping(value = "/clientes")
-public class ClienteResources {
+public class ClienteResource {
 
 	@Autowired
 	private ClienteRepository clienteRepository;

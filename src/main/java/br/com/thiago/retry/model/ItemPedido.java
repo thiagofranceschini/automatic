@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -14,6 +16,7 @@ public class ItemPedido implements Serializable {
 	 * recebe o objeto auxiliar para servir como foreignkey o objeto auxiliar deve
 	 * ser instanciado.
 	 */
+	@JsonIgnore
 	@EmbeddedId
 	private ItemPedidoPk id = new ItemPedidoPk();
 
@@ -34,10 +37,12 @@ public class ItemPedido implements Serializable {
 		this.preco = preco;
 	}
 
+	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
 
+	
 	public Produto getProduto() {
 		return id.getProduto();
 	}
