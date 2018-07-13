@@ -32,4 +32,11 @@ public class CategoriaService {
 		return newCategoria;
 	}
 
+	//malandragem: chame o método só para retornar o erro, não precisa setar nada, salve o que chegou na requisição.
+	//dessa forma você nem salva o retorno do método porque não será usado no código.
+	public Categoria update(Categoria categoria) {
+		find(categoria.getId());
+		return this.repository.save(categoria);
+	}
+
 }

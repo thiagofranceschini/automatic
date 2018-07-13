@@ -25,4 +25,13 @@ public class ClienteService {
 		return optional.orElseThrow(() -> new ObjectNotFoundException(
 				"Cliente não encontrado, id:" + id + ", tipo: " + Cliente.class.getName()));
 	}
+
+	public Cliente insert(Cliente cliente) {
+		return this.clienteRepository.save(cliente);
+	}
+
+	public Cliente update(Cliente cliente) {
+		find(cliente.getId());
+		return this.clienteRepository.save(cliente);
+	}
 }

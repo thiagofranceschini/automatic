@@ -37,8 +37,16 @@ public class CategoriaResource {
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Object> insertCategoria(@RequestBody Categoria categoria) {
 		Categoria newCategoria = this.categoriaService.insert(categoria);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newCategoria.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newCategoria.getId())
+				.toUri();
 		return ResponseEntity.created(uri).build();
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Object> updateCategoria(@RequestBody Categoria categoria, @PathVariable Integer id) {
+		categoria.setId(id);
+		categoria = this.categoriaService.update(categoria);
+		return ResponseEntity.noContent().build();
 	}
 
 }
