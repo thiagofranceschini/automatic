@@ -2,24 +2,40 @@ package br.com.thiago.retry.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import br.com.thiago.retry.service.validation.ClienteInsert;
+
+@ClienteInsert
 public class ClienteNewDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	@NotEmpty(message = "Nome Obrigatório.")
+	@Length(min = 5, max = 25, message = "Tamanho entre 5 e 25 caracteres.")
 	private String nome;
+	@NotEmpty(message = "E-mail Obrigatório.")
+	@Email(message = "E-mail inválido.")
 	private String email;
+	@NotEmpty(message = "CPF ou CNPJ Obrigatório.")
 	private String cpfOuCnpj;
+	
 	private Integer tipo;
-
+	@NotEmpty(message = "Logradouro Obrigatório.")
 	private String logradouro;
+	@NotEmpty(message = "Número Obrigatório.")
 	private String numero;
 	private String complemento;
+	@NotEmpty(message = "Bairro Obrigatório.")
 	private String bairro;
+	@NotEmpty(message = "Cep Obrigatório.")
 	private String cep;
-
+	@NotEmpty(message = "Ao menos um telefone é Obrigatório.")
 	private String telefone1;
 	private String telefone2;
 	private String telefone3;
-
+	
 	private Integer cidadeId;
 
 	public ClienteNewDTO() {
