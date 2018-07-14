@@ -62,6 +62,14 @@ public class RetryApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritório");
+		Categoria cat3 = new Categoria(null, "Puppets");
+		Categoria cat4 = new Categoria(null, "Utilidades");
+		Categoria cat5 = new Categoria(null, "Vestuário");
+		Categoria cat6 = new Categoria(null, "Infatil");
+		Categoria cat7 = new Categoria(null, "Cama, mesa e banho");
+		Categoria cat8 = new Categoria(null, "Games");
+		Categoria cat9 = new Categoria(null, "EletroEletrônicos");
+		Categoria cat10 = new Categoria(null, "LifeStyle");
 
 		Produto p1 = new Produto("Computador", new BigDecimal(2000.00));
 		Produto p2 = new Produto("Impressora", new BigDecimal(800.00));
@@ -119,8 +127,7 @@ public class RetryApplication implements CommandLineRunner {
 		p2.getItens().addAll(Arrays.asList(ip3));
 		p3.getItens().addAll(Arrays.asList(ip2));
 
-		this.categoriaRepository.save(cat1);
-		this.categoriaRepository.save(cat2);
+		this.categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, cat9, cat10));
 
 		this.produtoRepository.save(p1);
 		this.produtoRepository.save(p2);

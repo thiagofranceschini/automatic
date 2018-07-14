@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -57,6 +59,24 @@ public class CategoriaResource {
 	public ResponseEntity<Void> deleteCategoria(@PathVariable Integer id) {
 		this.categoriaService.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	/*
+	 * parâmetros opcionais para paginação O Objeto do tipo Page é J8 compliance, ou
+	 * seja, ele aceita findByPage.map(obj -> new CategoriaDTO(obj));, sem precisar
+	 * usar stream e outros
+	 */
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	public ResponseEntity<Page<CategoriaDTO>> FindPageable(
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "4") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+
+		Page<Categoria> findByPage = this.categoriaService.findByPage(page, linesPerPage, orderBy, direction);
+		Page<CategoriaDTO> pageList = findByPage.map(obj -> new CategoriaDTO(obj));
+		return ResponseEntity.ok().body(pageList);
+
 	}
 
 }
