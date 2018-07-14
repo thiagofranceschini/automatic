@@ -2,6 +2,7 @@ package br.com.thiago.retry.dto;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -15,12 +16,12 @@ public class ClienteNewDTO implements Serializable {
 	@NotEmpty(message = "Nome Obrigatório.")
 	@Length(min = 5, max = 25, message = "Tamanho entre 5 e 25 caracteres.")
 	private String nome;
+	@Column(unique = true)
 	@NotEmpty(message = "E-mail Obrigatório.")
 	@Email(message = "E-mail inválido.")
 	private String email;
 	@NotEmpty(message = "CPF ou CNPJ Obrigatório.")
 	private String cpfOuCnpj;
-	
 	private Integer tipo;
 	@NotEmpty(message = "Logradouro Obrigatório.")
 	private String logradouro;
