@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import br.com.thiago.retry.dto.CategoriaDTO;
 import br.com.thiago.retry.model.Categoria;
 import br.com.thiago.retry.repositories.CategoriaRepository;
 import br.com.thiago.retry.service.exceptions.DataIntegrityException;
@@ -59,6 +60,10 @@ public class CategoriaService {
 			throw new DataIntegrityException("Não é possível deletar categorias que possuam produtos associados.");
 		}
 
+	}
+
+	public Categoria fromDTO(CategoriaDTO categoriaDTO) {
+		return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
 	}
 
 }

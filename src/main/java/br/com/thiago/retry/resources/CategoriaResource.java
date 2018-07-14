@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -41,16 +43,19 @@ public class CategoriaResource {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Object> insertCategoria(@RequestBody Categoria categoria) {
-		Categoria newCategoria = this.categoriaService.insert(categoria);
+	public ResponseEntity<Object> insertCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO) {
+		Categoria newCategoria = this.categoriaService.fromDTO(categoriaDTO);
+		newCategoria = this.categoriaService.insert(newCategoria);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newCategoria.getId())
 				.toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Object> updateCategoria(@RequestBody Categoria categoria, @PathVariable Integer id) {
-		categoria.setId(id);
+	public ResponseEntity<Object> updateCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO,
+			@PathVariable Integer id) {
+		categoriaDTO.setId(id);
+		Categoria categoria = this.categoriaService.fromDTO(categoriaDTO);
 		categoria = this.categoriaService.update(categoria);
 		return ResponseEntity.noContent().build();
 	}
@@ -63,7 +68,7 @@ public class CategoriaResource {
 
 	/*
 	 * parâmetros opcionais para paginação O Objeto do tipo Page é J8 compliance, ou
-	 * seja, ele aceita findByPage.map(obj -> new CategoriaDTO(obj));, sem precisar
+	 * seja, ele aceita findByPage.map(obj -> new CategoriaDTO(obj)); sem precisar
 	 * usar stream e outros
 	 */
 	@RequestMapping(value = "/page", method = RequestMethod.GET)

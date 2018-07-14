@@ -2,6 +2,10 @@ package br.com.thiago.retry.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import br.com.thiago.retry.model.Categoria;
 
 public class CategoriaDTO implements Serializable {
@@ -12,6 +16,8 @@ public class CategoriaDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Integer id;
+	@NotEmpty(message = "Preenchimento Obrigatório")
+	@Length(min = 5, max = 25, message = "O tamanho deve ter entre 5 e 25 caracteres")
 	private String nome;
 
 	public CategoriaDTO() {
@@ -20,6 +26,7 @@ public class CategoriaDTO implements Serializable {
 
 	public CategoriaDTO(Integer id, String nome) {
 		super();
+
 		this.id = id;
 		this.nome = nome;
 	}
