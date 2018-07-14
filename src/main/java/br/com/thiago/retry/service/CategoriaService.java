@@ -40,6 +40,7 @@ public class CategoriaService {
 
 	public Categoria insert(Categoria categoria) {
 		Categoria newCategoria = this.repository.save(categoria);
+		newCategoria.setId(null);
 		return newCategoria;
 	}
 
@@ -47,8 +48,11 @@ public class CategoriaService {
 	// salve o que chegou na requisição.
 	// dessa forma você nem salva o retorno do método porque não será usado no
 	// código.
+	// malandragem2:método privado para fazer os sets dos atributos que serão
+	// atualizados
 	public Categoria update(Categoria categoria) {
-		find(categoria.getId());
+		Categoria dbObj = find(categoria.getId());
+		updateData(dbObj, categoria);
 		return this.repository.save(categoria);
 	}
 
@@ -64,6 +68,10 @@ public class CategoriaService {
 
 	public Categoria fromDTO(CategoriaDTO categoriaDTO) {
 		return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
+	}
+
+	private void updateData(Categoria dbObj, Categoria categoria) {
+		dbObj.setNome(categoria.getNome());
 	}
 
 }

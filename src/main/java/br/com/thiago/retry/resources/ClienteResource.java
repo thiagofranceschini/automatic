@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.thiago.retry.dto.ClienteDTO;
+import br.com.thiago.retry.dto.ClienteNewDTO;
 import br.com.thiago.retry.model.Cliente;
 import br.com.thiago.retry.service.ClienteService;
 
@@ -43,8 +44,8 @@ public class ClienteResource {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Object> insertCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
-		Cliente newCliente = this.clienteService.fromDTO(clienteDTO);
+	public ResponseEntity<Object> insertCliente(@Valid @RequestBody ClienteNewDTO clienteNewDTO) {
+		Cliente newCliente = this.clienteService.fromDTO(clienteNewDTO);
 		newCliente = this.clienteService.insert(newCliente);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newCliente.getId())
 				.toUri();
