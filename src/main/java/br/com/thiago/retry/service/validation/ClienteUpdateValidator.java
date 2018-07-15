@@ -2,43 +2,44 @@ package br.com.thiago.retry.service.validation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.HandlerMapping;
 
-import br.com.thiago.retry.dto.ClienteNewDTO;
+import br.com.thiago.retry.dto.ClienteDTO;
 import br.com.thiago.retry.model.Cliente;
-import br.com.thiago.retry.model.enums.TipoCliente;
 import br.com.thiago.retry.repositories.ClienteRepository;
 import br.com.thiago.retry.resources.exception.ErrorFieldMessage;
-import br.com.thiago.retry.service.validation.utils.BR;
 
-public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert, ClienteNewDTO> {
+public class ClienteUpdateValidator implements ConstraintValidator<ClienteUpdate, ClienteDTO> {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
+	@Autowired
+	private HttpServletRequest request;
 
 	@Override
-	public void initialize(ClienteInsert ann) {
+	public void initialize(ClienteUpdate ann) {
 	}
 
 	@Override
-	public boolean isValid(ClienteNewDTO objDto, ConstraintValidatorContext context) {
+	public boolean isValid(ClienteDTO objDto, ConstraintValidatorContext context) {
+
+		@SuppressWarnings("unchecked")
+		Map<String, String> map = (Map<String, String>) request
+				.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+		Integer uriId = Integer.parseInt(map.get("id"));
 
 		List<ErrorFieldMessage> list = new ArrayList<>();
-		// inclua os testes aqui, inserindo erros na lista
-
-		if (objDto.getTipo().equals(TipoCliente.PESSOAFISICA.getCod()) && !BR.isValidCPF(objDto.getCpfOuCnpj())) {
-			list.add(new ErrorFieldMessage("cpfOuCnpj", "CPF inválido."));
-		}
-		if (objDto.getTipo().equals(TipoCliente.PESSOAJURIDICA.getCod()) && !BR.isValidCNPJ(objDto.getCpfOuCnpj())) {
-			list.add(new ErrorFieldMessage("cpfOuCnpj", "CNPJ inválido."));
-		}
+		// inclua os testes aqui, inserindo erros na lista:
 
 		Cliente cliente = clienteRepository.findByEmail(objDto.getEmail());
-		if (cliente != null) {
+		if (cliente != null && !cliente.getId().equals(uriId)) {
 			list.add(new ErrorFieldMessage("email", "e-mail já existente"));
 		}
 

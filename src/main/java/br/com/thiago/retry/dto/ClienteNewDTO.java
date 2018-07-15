@@ -5,8 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.Size;
 
 import br.com.thiago.retry.service.validation.ClienteInsert;
 
@@ -14,7 +13,8 @@ import br.com.thiago.retry.service.validation.ClienteInsert;
 public class ClienteNewDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@NotEmpty(message = "Nome Obrigatório.")
-	@Length(min = 5, max = 25, message = "Tamanho entre 5 e 25 caracteres.")
+
+	@Size(min = 5, max = 25, message = "Tamanho entre 5 e 25 caracteres")
 	private String nome;
 	@Column(unique = true)
 	@NotEmpty(message = "E-mail Obrigatório.")
@@ -36,7 +36,7 @@ public class ClienteNewDTO implements Serializable {
 	private String telefone1;
 	private String telefone2;
 	private String telefone3;
-	
+
 	private Integer cidadeId;
 
 	public ClienteNewDTO() {

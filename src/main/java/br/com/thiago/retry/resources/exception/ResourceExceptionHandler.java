@@ -1,6 +1,7 @@
 package br.com.thiago.retry.resources.exception;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ValidationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,4 +48,14 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationError);
 	}
 
+	// ValidationException validação do número inteiro que causa null pointer no
+	// prórpio método de validação
+	@ExceptionHandler(ValidationException.class)
+	public ResponseEntity<StandardError> validationException(ValidationException e, HttpServletRequest requests) {
+
+		ValidationError validationError = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de validação.",
+				System.currentTimeMillis());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validationError);
+	}
 }
