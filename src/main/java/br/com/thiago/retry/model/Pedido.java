@@ -1,6 +1,7 @@
 package br.com.thiago.retry.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,6 +38,14 @@ public class Pedido implements Serializable {
 
 	@OneToMany(mappedBy = "id.pedido")
 	private Set<ItemPedido> itens = new HashSet<>();
+	
+	public BigDecimal getValorTotal() {
+		BigDecimal soma = new BigDecimal(0);
+		for(ItemPedido ip : itens) {
+			soma = soma.add(ip.getSubtotal());
+		}
+		return soma;
+	}
 
 	public Pedido() {
 		super();

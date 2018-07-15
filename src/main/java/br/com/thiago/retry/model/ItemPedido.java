@@ -19,10 +19,14 @@ public class ItemPedido implements Serializable {
 	@JsonIgnore
 	@EmbeddedId
 	private ItemPedidoPk id = new ItemPedidoPk();
-
 	private BigDecimal desconto;
 	private Integer quantidade;
 	private BigDecimal preco;
+	
+	public BigDecimal getSubtotal() {
+		BigDecimal precoComDesconto = preco.subtract(desconto);
+		return precoComDesconto.multiply(new BigDecimal(quantidade));
+	}
 
 	public ItemPedido() {
 		super();
