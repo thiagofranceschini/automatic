@@ -1,13 +1,12 @@
-package br.com.thiago.retry;
+package br.com.thiago.retry.service;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Service;
 
 import br.com.thiago.retry.model.Categoria;
 import br.com.thiago.retry.model.Cidade;
@@ -32,8 +31,8 @@ import br.com.thiago.retry.repositories.PagamentoRepository;
 import br.com.thiago.retry.repositories.PedidoRepository;
 import br.com.thiago.retry.repositories.ProdutoRepository;
 
-@SpringBootApplication
-public class RetryApplication implements CommandLineRunner {
+@Service
+public class DbService {
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
@@ -54,13 +53,7 @@ public class RetryApplication implements CommandLineRunner {
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 
-	public static void main(String[] args) {
-		SpringApplication.run(RetryApplication.class, args);
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-
+	public void instantiateDataBase() throws ParseException {
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritório");
 		Categoria cat3 = new Categoria(null, "Puppets");
@@ -152,6 +145,5 @@ public class RetryApplication implements CommandLineRunner {
 		this.pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		this.pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto1));
 		this.itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
-
 	}
 }
