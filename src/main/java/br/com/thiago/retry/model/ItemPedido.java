@@ -2,6 +2,8 @@ package br.com.thiago.retry.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -22,7 +24,7 @@ public class ItemPedido implements Serializable {
 	private BigDecimal desconto;
 	private Integer quantidade;
 	private BigDecimal preco;
-	
+
 	public BigDecimal getSubtotal() {
 		BigDecimal precoComDesconto = preco.subtract(desconto);
 		return precoComDesconto.multiply(new BigDecimal(quantidade));
@@ -46,15 +48,14 @@ public class ItemPedido implements Serializable {
 		return id.getPedido();
 	}
 
-	
 	public Produto getProduto() {
 		return id.getProduto();
 	}
-	
+
 	public void setPedido(Pedido pedido) {
 		id.setPedido(pedido);
 	}
-	
+
 	public void setProduto(Produto produto) {
 		id.setProduto(produto);
 	}
@@ -114,6 +115,21 @@ public class ItemPedido implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		NumberFormat numberFormat = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		StringBuilder builder = new StringBuilder();
+		builder.append(getProduto().getNome());
+		builder.append(", quantidade: ");
+		builder.append(getQuantidade());
+		builder.append(", preço: ");
+		builder.append(numberFormat.format(getPreco()));
+		builder.append(", Subtotal: ");
+		builder.append(numberFormat.format(getSubtotal()));
+		builder.append("\n");
+		return builder.toString();
 	}
 
 }
