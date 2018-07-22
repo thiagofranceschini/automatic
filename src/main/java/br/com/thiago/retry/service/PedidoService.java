@@ -35,6 +35,8 @@ public class PedidoService {
 	private ClienteService clienteService;
 	@Autowired
 	private EmailService emailService;
+	
+	
 
 	public List<Pedido> list() {
 		List<Pedido> list = this.repository.findAll();

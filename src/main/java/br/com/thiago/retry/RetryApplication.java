@@ -112,7 +112,7 @@ public class RetryApplication implements CommandLineRunner {
 		est2.getCidades().add(c2);
 		est2.getCidades().add(c3);
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Jaqueline Tavares", "jaquetavaresn@hotmail.com", "36378912377", TipoCliente.PESSOAFISICA);
 		cli1.getTelefones().add("27363326");
 		cli1.getTelefones().add("93838393");
 		Endereco e1 = new Endereco(null, "Rua flores", "300", "Apto303", "Jardim", "38220834", cli1, c1);

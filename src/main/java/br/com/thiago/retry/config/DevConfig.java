@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import br.com.thiago.retry.service.DbService;
+import br.com.thiago.retry.service.EmailService;
+import br.com.thiago.retry.service.SmtpEmailService;
 
 @Configuration
 @Profile("dev")
@@ -27,6 +29,11 @@ public class DevConfig {
 
 		dbService.instantiateDataBase();
 		return true;
+	}
+
+	@Bean
+	public EmailService emailService() {
+		return new SmtpEmailService();
 	}
 
 }
